@@ -45,21 +45,19 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 # use IterativeImputer
-numerical_transformer = SimpleImputer(strategy="constant")
-categorical_transformer = Pipeline(
+num_transformer = SimpleImputer(strategy="median")
+cat_onehot_transformer = Pipeline(
     steps=[
-        # ? use IterativeImputer
         ("imputer", SimpleImputer(strategy="most_frequent")),
-        # not all cols use OneHotEncoder
         ("onehot", OneHotEncoder(handle_unknown="ignore")),
     ]
 )
 
 preprocessor = ColumnTransformer(
     [
-        ("num", numerical_transformer, num_train.columns),
+        ("num", num_transformer, num_train.columns),
         # change accordingly
-        ("cat", categorical_transformer, cat_train.columns),
+        ("cat", cat_transformer, cat_train.columns),
     ]
 )
 
